@@ -136,7 +136,6 @@ class UMapMaster(unittest.TestCase):
         self.upapa_class.cache_database(self.database_path)
         # map with one parsed fasta
         maps = self.upapa_class.map_peptides(["KLEINER"])["KLEINER"]
-        breakpoint()
         self.assertEqual(len(maps), 1)
         tmp_database_path = os.path.join("tests", "data", "tmp_Test.fasta")
         with open(tmp_database_path, "w") as io:
@@ -145,7 +144,6 @@ class UMapMaster(unittest.TestCase):
 
         self.upapa_class.cache_database(tmp_database_path, "tmp_Test.fasta")
         maps = self.upapa_class.map_peptides(["KLEINER"])["KLEINER"]
-        breakpoint()
         self.assertEqual(len(maps), 1)
         self.assertEqual(
             len(
