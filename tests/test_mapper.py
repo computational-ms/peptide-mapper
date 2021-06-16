@@ -81,7 +81,7 @@ class UMapMaster(unittest.TestCase):
     #             input_fastas.append(line[1:].strip())
 
     #     self.assertEqual(
-    #         sorted(self.upapa_class.protein_sequences["Test.fasta"].keys()),
+    #         sorted(self.upapa_class.protein_sequences.keys()),
     #         sorted(input_fastas),
     #     )
     #     return
@@ -94,9 +94,7 @@ class UMapMaster(unittest.TestCase):
         self.assertEqual(
             [
                 (d["id"], d["start"])
-                for d in self.upapa_class.peptide_2_protein_mappings["Test.fasta"][
-                    "ELVIS"
-                ]
+                for d in self.upapa_class.peptide_2_protein_mappings["ELVIS"]
             ],
             [
                 ("Protein1", 1),
@@ -108,9 +106,7 @@ class UMapMaster(unittest.TestCase):
         self.assertEqual(
             [
                 (d["id"], d["start"])
-                for d in self.upapa_class.peptide_2_protein_mappings["Test.fasta"][
-                    "MUSTACHIO"
-                ]
+                for d in self.upapa_class.peptide_2_protein_mappings["MUSTACHIO"]
             ],
             [
                 ("GnomeChompsky", 1),
@@ -128,32 +124,30 @@ class UMapMaster(unittest.TestCase):
             self.assertEqual("Protein3", mapping["id"])
         return
 
-    @unittest.skipIf(
-        sys.platform == "win32", "pyahocorasick not installed via pip in Windows"
-    )
-    def test_incremental_cache_buildups(self):
-        """"""
-        self.upapa_class.cache_database(self.database_path)
-        # map with one parsed fasta
-        maps = self.upapa_class.map_peptides(["KLEINER"])["KLEINER"]
-        self.assertEqual(len(maps), 1)
-        tmp_database_path = os.path.join("tests", "data", "tmp_Test.fasta")
-        with open(tmp_database_path, "w") as io:
-            for line in TEST_FASTA_TWO:
-                print(line.strip(), file=io)
+    # @unittest.skipIf(
+    #     sys.platform == "win32", "pyahocorasick not installed via pip in Windows"
+    # )
+    # def test_incremental_cache_buildups(self):
+    #     """"""
+    #     self.upapa_class.cache_database(self.database_path)
+    #     # map with one parsed fasta
+    #     maps = self.upapa_class.map_peptides(["KLEINER"])["KLEINER"]
+    #     self.assertEqual(len(maps), 1)
+    #     tmp_database_path = os.path.join("tests", "data", "tmp_Test.fasta")
+    #     with open(tmp_database_path, "w") as io:
+    #         for line in TEST_FASTA_TWO:
+    #             print(line.strip(), file=io)
 
-        self.upapa_class.cache_database(tmp_database_path, "tmp_Test.fasta")
-        maps = self.upapa_class.map_peptides(["KLEINER"])["KLEINER"]
-        self.assertEqual(len(maps), 1)
-        self.assertEqual(
-            len(
-                self.upapa_class.map_peptides(["KLEINER"], "tmp_Test.fasta")["KLEINER"]
-            ),
-            1,
-        )
+    #     self.upapa_class.cache_database(tmp_database_path, "tmp_Test.fasta")
+    #     maps = self.upapa_class.map_peptides(["KLEINER"])["KLEINER"]
+    #     self.assertEqual(len(maps), 1)
+    #     self.assertEqual(
+    #         len(self.upapa_class.map_peptides(["KLEINER"], "tmp_Test.fasta")["KLEINER"]),
+    #         1,
+    #     )
 
-        os.remove(tmp_database_path)
-        return
+    #     os.remove(tmp_database_path)
+    #     return
 
     @unittest.skipIf(
         sys.platform == "win32", "pyahocorasick not installed via pip in Windows"
