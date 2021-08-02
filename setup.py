@@ -2,14 +2,18 @@
 from setuptools import setup
 import os
 
-# version_path = os.path.join(os.path.dirname(__file__), "peptide_mapper", "version.txt")
-# with open(version_path, "r") as version_file:
-#     mapper_version = version_file.read().strip()
-mapper_version = "0.1.0"
+version_path = os.path.join(os.path.dirname(__file__), "peptide_mapper", "version.txt")
+with open(version_path, "r") as version_file:
+    mapper_version = version_file.read().strip()
+
+req_path = os.path.join(os.path.dirname(__file__), 'requirements.txt')
+with open(req_path, "r") as req_file:
+    requirements = req_file.readlines()
 
 setup(
     name="peptide_mapper",
     version=mapper_version,
+    packages=["peptide_mapper"],
     package_dir={"peptide_mapper": "peptide_mapper"},
     package_data={
         "peptide_mapper": [
@@ -17,10 +21,7 @@ setup(
         ]
     },
     python_requires=">=3.7.0",
-    install_requires=[
-        "numpy >= 1.8.0",
-        "regex",
-    ],
+    install_requires=requirements,
     description="Peptide mapper",
     long_description="Mapper used to map peptides to a fasta file",
     author="",
